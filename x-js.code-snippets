@@ -287,10 +287,10 @@
 		"body": [
 		  "app.get('/${1:path}', async (req, res) => {",
 		  "    try {",
-		  "        const ${2:docs} = await Blog.find({})",
-		  "        res.render('index', { title: '${3:title}', ${2:docs} });",
+		  "        const ${2:model} = await ${3:Model}.find({})",
+		  "        res.render('index', { title: '${4:title}', ${2:model} });",
 		  "    } catch (error) {",
-		  "        res.render('index', {title: '${3:title}', ${2:docs}: []})",
+		  "        res.render('index', {title: '${4:title}', ${2:model}: []})",
 		  "    }",
 		  "})"
 		],
