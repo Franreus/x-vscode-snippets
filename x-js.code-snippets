@@ -101,19 +101,6 @@
 		],
 		"description": "mongoose model"
 	},
-	"mongoose db": {
-		"prefix": "x-db-mongoose.js",
-		"body": [
-			"const mongoose = require('mongoose')",
-			"",
-			"mongoose.connect('mongodb://127.0.0.1:27017/task-manager-api', {",
-			"    useNewUrlParser: true,",
-			"    useCreateIndex: true,",
-			"    useFindAndModify: false",
-			"})"
-		],
-		"description": "mongoose db"
-	},
 	"heroku help": {
 		"prefix": "x-help-heroku",
 		"body": [
@@ -222,6 +209,231 @@
 		  "",
 		  "module.exports = router"
 		],
-		"description": "routers/resouce.js"
+		"description": "routers/resource.js"
+	  },
+	  "ejs out": {
+		"prefix": "ejsout",
+		"body": [
+		  "<%= $0 %>"
+		],
+		"description": "ejs out"
+	  },
+	  "ejs include": {
+		"prefix": "ejsinc",
+		"body": [
+		  "<%- include(\"./partials/${1:filename}.ejs\") %>$0"
+		],
+		"description": "ejs include"
+	  },
+	  "ejs": {
+		"prefix": "ejs",
+		"body": [
+		  "<% ${1:code} %>$0"
+		],
+		"description": "ejs"
+	  },
+	  "html form": {
+		"prefix": "x-form",
+		"body": [
+		  "<form action=\\/api/${1:resources}\\ method=\\POST\\>",
+		  "  <label for=\\${2:name}\\>${3:label}:</label>",
+		  "  <input type=\\text\\ id=\\${2:name}\\ name=\\${2:name}\\ required>",
+		  "  <label for=\\${4:name}\\>${5:label}:</label>",
+		  "  <input type=\\text\\ id=\\${4:name}\\ name=\\${4:name}\\ required>",
+		  "  <label for=\\${6:name}\\>${7:label}:</label>",
+		  "  <textarea id=\\${6:name}\\ name=\\${6:name}\\ required></textarea>",
+		  "  <button>${8:Submit}</button>",
+		  "</form>"
+		],
+		"description": "html form"
+	  },
+	  "css normalize": {
+		"scope": "css",
+		"prefix": "x-css-normalize",
+		"body": [
+		  "* {",
+		  "    padding: 0;",
+		  "    margin: 0;",
+		  "    box-sizing: border-box;",
+		  "}"
+		],
+		"description": "css normalize"
+	  },
+	  "mongoose connection": {
+		"prefix": "x-db-mongoose.js",
+		"body": [
+		  "const mongoose = require('mongoose')",
+		  "",
+		  "mongoose.connect(process.env.MONGODB_URL, {",
+		  "    useNewUrlParser: true,",
+		  "    useUnifiedTopology: true,",
+		  "    useCreateIndex: true,",
+		  "    useFindAndModify: false",
+		  "})"
+		],
+		"description": "mongoose connection"
+	  },
+	  "express app get": {
+		"prefix": "x-express-app-get",
+		"body": [
+		  "app.get('/${1:path}', (req, res) => {",
+		  "  res.render('${1:path}', { title: '${2:title}' });",
+		  "});"
+		],
+		"description": "express app get"
+	  },
+	  "express app get all": {
+		"prefix": "x-express-app-get-all",
+		"body": [
+		  "app.get('/${1:path}', async (req, res) => {",
+		  "    try {",
+		  "        const ${2:docs} = await Blog.find({})",
+		  "        res.render('index', { title: '${3:title}', ${2:docs} });",
+		  "    } catch (error) {",
+		  "        res.render('index', {title: '${3:title}', ${2:docs}: []})",
+		  "    }",
+		  "})"
+		],
+		"description": "express app get all"
+	  },
+	  "express app init": {
+		"prefix": "x-express-app-0",
+		"body": [
+		  "const express = require('express')",
+		  "",
+		  "require('../db/mongoose')",
+		  "const ${1:Model} = require('../models/${2:model}') // optional",
+		  "const ${3:router}Router = require('../routers/${3:router}')",
+		  "",
+		  "const port = process.env.PORT",
+		  "",
+		  "// express app",
+		  "const app = express()",
+		  "",
+		  "// listen for requests",
+		  "app.listen(port, () => {",
+		  "  console.log(`Server listening to port \\${port}`)",
+		  "})",
+		  "",
+		  "// register view engine",
+		  "app.set('view engine', 'ejs')",
+		  "",
+		  "// middleware & static files",
+		  "app.use(express.static('public'))",
+		  "app.use(express.urlencoded({ extended: true }))",
+		  "",
+		  "// web server",
+		  "app.get('/', (req, res) => {",
+		  "  res.render('index', { title: 'Home' })",
+		  "});",
+		  "$0",
+		  "",
+		  "// api's",
+		  "app.use(express.json())",
+		  "app.use('/api', ${3:router}Router)",
+		  "",
+		  "// 404 page",
+		  "app.use((req, res) => {",
+		  "  res.status(404).render('404', { title: '404' })",
+		  "})"
+		],
+		"description": "express app init"
+	  },
+	  "models resource": {
+		"prefix": "x-models-resource.js",
+		"body": [
+		  "const mongoose = require('mongoose')",
+		  "",
+		  "const ${1:Resource} = mongoose.model('${1:Resource}', new mongoose.Schema({",
+		  "    ${2:field}: {",
+		  "        type: String,",
+		  "        ${3:required: true,}",
+		  "        ${4:default: '${5:txt}',}",
+		  "        ${6:enum: [],}",
+		  "        ${7:${8|trim,lowercase,minlength,maxlength|}: true,}",
+		  "        validate(value) {",
+		  "            if (!condition) {",
+		  "                throw new Error('Condition not met')",
+		  "            }",
+		  "        }",
+		  "    },",
+		  "    ${9:field}: {",
+		  "        type: Number,",
+		  "        ${10:required: true,}",
+		  "        ${11:default: '${12:txt}',}",
+		  "        ${13|min,max|}: 0,",
+		  "        ${14:enum: [],},",
+		  "        ${15:match: RegExp,}",
+		  "        validate(value) {",
+		  "            if (!condition) {",
+		  "                throw new Error('Condition not met')",
+		  "            }",
+		  "        }",
+		  "    }",
+		  "}))",
+		  "",
+		  "module.exports = ${1:Resource}"
+		],
+		"description": "models resource"
+	  },
+	  "css 0": {
+		"prefix": "x-css-0",
+		"body": [
+		  "* {",
+		  "    padding: 0;",
+		  "    margin: 0;",
+		  "    box-sizing: border-box;",
+		  "}",
+		  "",
+		  "body {",
+		  "    background-color: lightgrey;",
+		  "    color: black;",
+		  "    width: 80%;",
+		  "    margin: auto;",
+		  "}",
+		  "",
+		  "ul {",
+		  "    list-style-type: none;",
+		  "}",
+		  "",
+		  "nav li {",
+		  "    display: inline-block;",
+		  "    margin-left: 16px;",
+		  "}",
+		  "",
+		  "header{",
+		  "    margin: 16px;",
+		  "    display: flex;",
+		  "    justify-content: space-between;",
+		  "}",
+		  "",
+		  "a {",
+		  "    text-decoration: none;",
+		  "}",
+		  "",
+		  "label, input, textarea {",
+		  "    display: block;",
+		  "    margin-bottom: 8px;",
+		  "}",
+		  "",
+		  "main{",
+		  "    background-color: lightcyan;",
+		  "    border-radius: 16px;",
+		  "    margin: 16px;",
+		  "    padding: 48px;",
+		  "}",
+		  "",
+		  "footer{",
+		  "    margin: 16px;",
+		  "}",
+		  "",
+		  ".post {",
+		  "    margin: 16px;",
+		  "    padding: 24px;",
+		  "    background-color: white;",
+		  "    border-radius: 16px;",
+		  "}"
+		],
+		"description": "css 0"
 	  }
 }
