@@ -1,5 +1,5 @@
 {
-	// Xavier Visual Studio Code Snippets for Reus Web Hackers course
+	// Xavier Visual Studio Code Snippets
 	"yargs command": {
 		"prefix": "x-yargs1",
 		"body": [
@@ -260,13 +260,20 @@
 		"description": "html form"
 	  },
 	  "css normalize": {
-		"scope": "css",
 		"prefix": "x-css-normalize",
 		"body": [
 		  "* {",
 		  "    padding: 0;",
 		  "    margin: 0;",
 		  "    box-sizing: border-box;",
+		  "}",
+		  "",
+		  "a{",
+		  "    text-decoration: none;",
+		  "}",
+		  "",
+		  "ul{",
+		  "    list-style-type: none;",
 		  "}"
 		],
 		"description": "css normalize"
@@ -312,7 +319,7 @@
 		"scope": "javascript"
 	  },
 	  "express app init": {
-		"prefix": "x-express-app-0",
+		"prefix": "x-express-app-init",
 		"body": [
 		  "const express = require('express')",
 		  "",
@@ -416,8 +423,8 @@
 		"description": "models/resource.js",
 		"scope": "javascript"
 	  },
-	  "css 0": {
-		"prefix": "x-css-0",
+	  "css init": {
+		"prefix": "x-css-init",
 		"body": [
 		  "* {",
 		  "    padding: 0;",
@@ -474,7 +481,8 @@
 		  "    border-radius: 16px;",
 		  "}"
 		],
-		"description": "css 0"
+		"description": "css 0",
+		"scope": "css"
 	  },
 	  "middleware/auth.js": {
 		"prefix": "x-middleware-auth",
@@ -503,123 +511,6 @@
 		  "module.exports = auth"
 		],
 		"description": "middleware/auth.js",
-		"scope": "javascript"
-	  },
-	  "authorization routers user": {
-		"prefix": "x-routers-user.js",
-		"body": [
-		  "const express = require('express')",
-		  "const User = require('../models/user')",
-		  "const auth = require('../middleware/auth')",
-		  "const router = new express.Router()",
-		  "",
-		  "router.post('/users', async (req, res) => {",
-		  "    const user = new User(req.body)",
-		  "",
-		  "    try {",
-		  "        await user.save()",
-		  "        const token = await user.generateAuthToken()",
-		  "        res.status(201).send({ user, token })",
-		  "    } catch (e) {",
-		  "        res.status(400).send(e)",
-		  "    }",
-		  "})",
-		  "",
-		  "router.post('/users/login', async (req, res) => {",
-		  "    try {",
-		  "        const user = await User.findByCredentials(req.body.email, req.body.password)",
-		  "        const token = await user.generateAuthToken()",
-		  "        res.send({ user, token })",
-		  "    } catch (e) {",
-		  "        res.status(400).send()",
-		  "    }",
-		  "})",
-		  "",
-		  "router.post('/users/logout', auth, async (req, res) => {",
-		  "    try {",
-		  "        req.user.tokens = req.user.tokens.filter((token) => {",
-		  "            return token.token !== req.token",
-		  "        })",
-		  "        await req.user.save()",
-		  "",
-		  "        res.send()",
-		  "    } catch (e) {",
-		  "        res.status(500).send()",
-		  "    }",
-		  "})",
-		  "",
-		  "router.post('/users/logoutAll', auth, async (req, res) => {",
-		  "    try {",
-		  "        req.user.tokens = []",
-		  "        await req.user.save()",
-		  "        res.send()",
-		  "    } catch (e) {",
-		  "        res.status(500).send()",
-		  "    }",
-		  "})",
-		  "",
-		  "router.get('/users/me', auth, async (req, res) => {",
-		  "    res.send(req.user)",
-		  "})",
-		  "",
-		  "router.get('/users/:id', async (req, res) => {",
-		  "    const _id = req.params.id",
-		  "",
-		  "    try {",
-		  "        const user = await User.findById(_id)",
-		  "",
-		  "        if (!user) {",
-		  "            return res.status(404).send()",
-		  "        }",
-		  "",
-		  "        res.send(user)",
-		  "    } catch (e) {",
-		  "        res.status(500).send()",
-		  "    }",
-		  "})",
-		  "",
-		  "router.patch('/users/:id', async (req, res) => {",
-		  "    const updates = Object.keys(req.body)",
-		  "    const allowedUpdates = ['name', 'email', 'password', 'age']",
-		  "    const isValidOperation = updates.every((update) => allowedUpdates.includes(update))",
-		  "",
-		  "    if (!isValidOperation) {",
-		  "        return res.status(400).send({ error: 'Invalid updates!' })",
-		  "    }",
-		  "",
-		  "    try {",
-		  "        const user = await User.findById(req.params.id)",
-		  "",
-		  "        updates.forEach((update) => user[update] = req.body[update])",
-		  "        await user.save()",
-		  "",
-		  "        if (!user) {",
-		  "            return res.status(404).send()",
-		  "        }",
-		  "",
-		  "        res.send(user)",
-		  "    } catch (e) {",
-		  "        res.status(400).send(e)",
-		  "    }",
-		  "})",
-		  "",
-		  "router.delete('/users/:id', async (req, res) => {",
-		  "    try {",
-		  "        const user = await User.findByIdAndDelete(req.params.id)",
-		  "",
-		  "        if (!user) {",
-		  "            return res.status(404).send()",
-		  "        }",
-		  "",
-		  "        res.send(user)",
-		  "    } catch (e) {",
-		  "        res.status(500).send()",
-		  "    }",
-		  "})",
-		  "",
-		  "module.exports = router"
-		],
-		"description": "authorization",
 		"scope": "javascript"
 	  },
 	  "models/user.js": {
@@ -842,20 +733,97 @@
 		"body": [
 		  "<${1:div}>$TM_SELECTED_TEXT</${1:div}>$0"
 		],
-		"description": "wrap html"
+		"description": "wrap html",
+		"scope": "javascript"
 	  },
 	  "wrap ejs": {
 		"prefix": "x-wrap-ejs",
 		"body": [
 		  "<${1:%} $TM_SELECTED_TEXT ${1:%}>$0"
 		],
-		"description": "wrap html"
+		"description": "wrap html",
+		"scope": "javascript"
 	  },
 	  "wrap x": {
 		"prefix": "x-wrap-x",
 		"body": [
 		  "${1}$TM_SELECTED_TEXT${2}$0"
 		],
-		"description": "wrap x"
+		"description": "wrap x",
+		"scope": "javascript"
+	  },
+	  "array forEach": {
+		"prefix": "x-arr-forEach",
+		"body": [
+		  "${1:array}.forEach((${2:item}${3:, ${4:index}})=>{",
+		  "  $0",
+		  "})"
+		],
+		"description": "array forEach",
+		"scope": "javascript"
+	  },
+	  "array map": {
+		"prefix": "x-arr-map",
+		"body": [
+		  "${1:const ${2:newArray} =} ${3:array}.map((${4:item}${5:, ${6:index}})=>{",
+		  "  return ${7:newItem}",
+		  "})$0"
+		],
+		"description": "array map",
+		"scope": "javascript"
+	  },
+	  "array filter": {
+		"prefix": "x-arr-filter",
+		"body": [
+		  "${1:const ${2:newArray} =} ${3:array}.filter((${4:item}${5:, ${6:index}})=>{",
+		  "  return ${7:key} === ${8:value}",
+		  "})$0"
+		],
+		"description": "array map",
+		"scope": "javascript"
+	  },
+	  "array find": {
+		"prefix": "x-arr-find",
+		"body": [
+		  "${1:const ${2:newArray} =} ${3:array}.find((${4:item}${5:, ${6:index}})=>{",
+		  "  return ${7:key} === ${8:value}",
+		  "})$0"
+		],
+		"description": "array find",
+		"scope": "javascript"
+	  },
+	  "array findIndex": {
+		"prefix": "x-arr-findIndex",
+		"body": [
+		  "${1:const ${2:i} =} ${3:array}.findIndex((${4:item}${5:, ${6:index}})=>{",
+		  "  return ${7:key} === ${8:value}",
+		  "})$0"
+		],
+		"description": "array findIndex",
+		"scope": "javascript"
+	  },
+	  "array splice": {
+		"prefix": "x-arr-splice",
+		"body": [
+		  "${1:const ${2:newArray} =} ${3:array}.splice(${4:indexToInsert}, ${5:numberToDelete}, ${6:commaSeparatedNewItems})$0"
+		],
+		"description": "array splice",
+		"scope": "javascript"
+	  },
+	  "array sort": {
+		"prefix": "x-arr-sort",
+		"body": [
+		  "${1:const ${2:arraySorted} =} ${3:array}.sort((${4:item}A, ${4:item})=> {",
+		  "    if (${4:item}A && ${4:item}B) {",
+		  "        return -1 // to keep",
+		  "    } else if (${4:item}A && ${4:item}B) {",
+		  "        return 1 // to swap",
+		  "    } else {",
+		  "        return 0",
+		  "    }",
+		  "})"
+		],
+		"description": "array sort",
+		"scope": "javascript"
 	  }
 }
