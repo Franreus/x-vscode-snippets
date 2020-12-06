@@ -373,7 +373,7 @@
 		  "        ${3:required: true,}",
 		  "        ${4:default: '${5:txt}',}",
 		  "        ${6:enum: [],}",
-		  "        ${7:${8|trim,lowercase,minlength,maxlength|}: true},",
+		  "        ${7:${8|trim,lowercase,minlength,maxlength|}: true,}",
 		  "        ${9:match: ${10:RegExp}},",
 		  "        validate(value) {",
 		  "            if (!condition) {",
