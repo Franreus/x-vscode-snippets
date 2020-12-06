@@ -372,7 +372,7 @@
 		  "        type: String,",
 		  "        ${3:required: true,}",
 		  "        ${4:default: '${5:txt}',}",
-		  "        ${6:enum: []},",
+		  "        ${6:enum: [],}",
 		  "        ${7:${8|trim,lowercase,minlength,maxlength|}: true},",
 		  "        ${9:match: ${10:RegExp}},",
 		  "        validate(value) {",
@@ -733,24 +733,21 @@
 		"body": [
 		  "<${1:div}>$TM_SELECTED_TEXT</${1:div}>$0"
 		],
-		"description": "wrap html",
-		"scope": "javascript"
+		"description": "wrap html"
 	  },
 	  "wrap ejs": {
 		"prefix": "x-wrap-ejs",
 		"body": [
 		  "<${1:%} $TM_SELECTED_TEXT ${1:%}>$0"
 		],
-		"description": "wrap html",
-		"scope": "javascript"
+		"description": "wrap html"
 	  },
 	  "wrap x": {
 		"prefix": "x-wrap-x",
 		"body": [
 		  "${1}$TM_SELECTED_TEXT${2}$0"
 		],
-		"description": "wrap x",
-		"scope": "javascript"
+		"description": "wrap x"
 	  },
 	  "array forEach": {
 		"prefix": "x-arr-forEach",
@@ -823,7 +820,6 @@
 		  "    }",
 		  "})"
 		],
-		"description": "array sort",
-		"scope": "javascript"
+		"description": "array sort"
 	  }
 }
