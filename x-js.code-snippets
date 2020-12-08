@@ -821,5 +821,15 @@
 		  "})"
 		],
 		"description": "array sort"
+	  },
+	  "arrow function": {
+		"prefix": "x-f",
+		"body": [
+		  "($1) => {",
+		  "    $0",
+		  "}"
+		],
+		"description": "arrow function",
+		"scope": "javascript"
 	  }
 }
