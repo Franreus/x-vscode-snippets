@@ -820,7 +820,8 @@
 		  "    }",
 		  "})"
 		],
-		"description": "array sort"
+		"description": "array sort",
+		"scope": "javascript"
 	  },
 	  "arrow function": {
 		"prefix": "x-f",
